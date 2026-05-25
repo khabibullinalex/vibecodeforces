@@ -45,7 +45,7 @@ export default async function handler(req) {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'VibeCodeForces <noreply@vibecodeforces.ru>',
+        from: 'VibeCodeForces <onboarding@resend.dev>',
         to: [TO_EMAIL],
         subject: `⚡ Новая заявка от ${name}`,
         html: `
