@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0D1117"/>
+  <!-- < жёлтый -->
+  <text x="2" y="48" font-size="38" font-weight="900" font-family="Arial Black, Arial, sans-serif" fill="#F5A623">&lt;</text>
+  <!-- молния синяя (SVG path, не эмодзи) -->
+  <path d="M36 10 L28 34 H34 L29 54 L44 26 H37 L44 10 Z" fill="#2D7DD2"/>
+  <!-- > красный -->
+  <text x="42" y="48" font-size="38" font-weight="900" font-family="Arial Black, Arial, sans-serif" fill="#E03030">&gt;</text>
+</svg>

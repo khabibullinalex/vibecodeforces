@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeCodeForces — Студия вайбкодинга</title>
+
+  <!-- SEO -->
+  <meta name="description" content="VibeCodeForces — студия вайбкодинга. Делаем MVP, AI-продукты и веб-приложения в состоянии потока. Учим вайбкодингу всех желающих." />
+  <meta name="keywords" content="вайбкодинг, vibe coding, студия разработки, MVP, AI разработка, обучение программированию, веб-разработка" />
+  <meta name="author" content="VibeCodeForces" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://vibecodeforces.ru/" />
+
+  <!-- Open Graph (Telegram, VK, Facebook) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vibecodeforces.ru/" />
+  <meta property="og:title" content="VibeCodeForces — Студия вайбкодинга" />
+  <meta property="og:description" content="Вайбкодим всё, что нужно. MVP, AI-продукты, автоматизация. И учим вайбкодингу — быстро, мощно, в потоке." />
+  <meta property="og:image" content="https://vibecodeforces.ru/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="VibeCodeForces" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VibeCodeForces — Студия вайбкодинга" />
+  <meta name="twitter:description" content="Вайбкодим всё, что нужно. MVP, AI-продукты, автоматизация. И учим вайбкодингу — быстро, мощно, в потоке." />
+  <meta name="twitter:image" content="https://vibecodeforces.ru/og-image.svg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.svg" />
+
+  <!-- Цвет адресной строки на мобильных -->
+  <meta name="theme-color" content="#0D1117" />
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --yellow:  #F5A623;
+      --blue:    #2D7DD2;
+      --red:     #E03030;
+      --bg:      #0D1117;
+      --bg2:     #141B25;
+      --bg3:     #1B2435;
+      --text:    #E8EAF0;
+      --muted:   #7A8499;
+      --radius:  16px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Typography helpers ───────────────────────────────────── */
+    .vibe  { color: var(--yellow); }
+    .code  { color: var(--blue);   }
+    .force { color: var(--red);    }
+
+    /* ── Noise overlay ────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: .4;
+    }
+
+    /* ── NAV ──────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      backdrop-filter: blur(18px);
+      background: rgba(13,17,23,.75);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.15rem; font-weight: 700; letter-spacing: -.3px;
+    }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-links {
+      display: flex; gap: 36px;
+      font-size: .9rem; font-weight: 500; color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--text); transition: color .2s; }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--yellow), var(--red));
+      color: #fff; font-weight: 700; font-size: .85rem;
+      padding: 10px 22px; border-radius: 10px;
+      transition: opacity .2s, transform .15s;
+    }
+    .nav-cta:hover { opacity: .9; transform: translateY(-1px); }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+    }
+
+    /* Animated gradient glow blobs */
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(100px);
+      animation: float 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    .blob-1 { width: 480px; height: 480px; background: rgba(245,166,35,.15); top: 5%; left: -10%; }
+    .blob-2 { width: 420px; height: 420px; background: rgba(45,125,210,.18); top: 20%; right: -8%; animation-delay: -3s; }
+    .blob-3 { width: 300px; height: 300px; background: rgba(224,48,48,.12); bottom: 10%; left: 30%; animation-delay: -5s; }
+
+    @keyframes float {
+      from { transform: translateY(0) scale(1); }
+      to   { transform: translateY(-40px) scale(1.08); }
+    }
+
+    /* Logo mark */
+    .hero-logo {
+      display: flex; align-items: center; gap: 4px;
+      font-size: clamp(64px, 10vw, 100px);
+      font-weight: 900; line-height: 1;
+      margin-bottom: 28px;
+      position: relative; z-index: 1;
+    }
+    .hero-logo .bracket-l { color: var(--yellow); }
+    .hero-logo .lightning  { color: var(--blue); animation: pulse 2s ease-in-out infinite; }
+    .hero-logo .bracket-r  { color: var(--red); }
+
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 8px var(--blue)); }
+      50%       { filter: drop-shadow(0 0 24px var(--blue)) drop-shadow(0 0 48px rgba(45,125,210,.4)); }
+    }
+
+    .hero-wordmark {
+      font-size: clamp(36px, 6vw, 68px);
+      font-weight: 900; letter-spacing: -1px;
+      position: relative; z-index: 1;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted); max-width: 560px;
+      line-height: 1.7; position: relative; z-index: 1;
+      margin-bottom: 44px;
+    }
+
+    .hero-buttons {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      justify-content: center; position: relative; z-index: 1;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--yellow) 0%, var(--red) 100%);
+      color: #fff; font-weight: 700; font-size: 1rem;
+      padding: 16px 36px; border-radius: 12px; border: none; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 8px 32px rgba(245,166,35,.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(245,166,35,.4); }
+    .btn-secondary {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text); font-weight: 600; font-size: 1rem;
+      padding: 16px 36px; border-radius: 12px; cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.11); transform: translateY(-2px); }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--muted); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+      animation: bobble 2s ease-in-out infinite;
+    }
+    @keyframes bobble {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+    .scroll-hint::after {
+      content: '↓'; font-size: 1.1rem;
+    }
+
+    /* Ticker tape */
+    .ticker {
+      position: relative; overflow: hidden;
+      background: var(--bg2); border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 14px 0;
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: ticker 22s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-track span {
+      padding: 0 32px; font-size: .85rem; font-weight: 600;
+      color: var(--muted); letter-spacing: .05em;
+    }
+    .ticker-track .dot {
+      padding: 0; color: var(--yellow);
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Sections shared ──────────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--yellow);
+      background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.2);
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900; line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-lead {
+      font-size: 1.1rem; color: var(--muted); max-width: 580px; line-height: 1.7;
+      margin-bottom: 56px;
+    }
+
+    /* ── WHAT WE DO ───────────────────────────────────────────── */
+    #services {
+      padding: 110px 0;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .card.y::before { background: var(--yellow); }
+    .card.b::before { background: var(--blue); }
+    .card.r::before { background: var(--red); }
+    .card.m::before { background: linear-gradient(90deg, var(--yellow), var(--blue), var(--red)); }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.14);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    .card-icon {
+      font-size: 2.4rem; margin-bottom: 20px; display: block;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+    .card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 10px; }
+    .card p  { font-size: .95rem; color: var(--muted); line-height: 1.65; }
+    .card-tag {
+      display: inline-block; margin-top: 20px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 6px;
+    }
+    .card.y .card-tag { background: rgba(245,166,35,.12); color: var(--yellow); }
+    .card.b .card-tag { background: rgba(45,125,210,.12);  color: var(--blue); }
+    .card.r .card-tag { background: rgba(224,48,48,.12);   color: var(--red); }
+    .card.m .card-tag { background: rgba(245,166,35,.12);  color: var(--yellow); }
+
+    /* ── HOW WE WORK ──────────────────────────────────────────── */
+    #how {
+      padding: 110px 0;
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute; top: 32px; left: 10%; right: 10%; height: 2px;
+      background: linear-gradient(90deg, var(--yellow), var(--blue), var(--red));
+      opacity: .3;
+    }
+    .step {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 0 20px;
+      position: relative;
+    }
+    .step-num {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 900; margin-bottom: 24px;
+      position: relative; z-index: 1;
+      border: 2px solid transparent;
+    }
+    .step:nth-child(1) .step-num { background: rgba(245,166,35,.15); color: var(--yellow); border-color: rgba(245,166,35,.4); }
+    .step:nth-child(2) .step-num { background: rgba(45,125,210,.15);  color: var(--blue);   border-color: rgba(45,125,210,.4); }
+    .step:nth-child(3) .step-num { background: rgba(224,48,48,.15);   color: var(--red);    border-color: rgba(224,48,48,.4); }
+    .step:nth-child(4) .step-num { background: rgba(245,166,35,.15);  color: var(--yellow); border-color: rgba(245,166,35,.4); }
+    .step h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .step p  { font-size: .875rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── LEARN ────────────────────────────────────────────────── */
+    #learn {
+      padding: 110px 0;
+    }
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .learn-courses {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .course {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 20px;
+      transition: border-color .2s, transform .2s;
+      cursor: default;
+    }
+    .course:hover { border-color: rgba(245,166,35,.35); transform: translateX(4px); }
+    .course-icon {
+      width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+    }
+    .course-icon.y { background: rgba(245,166,35,.15); }
+    .course-icon.b { background: rgba(45,125,210,.15); }
+    .course-icon.r { background: rgba(224,48,48,.15); }
+    .course-body h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .course-body p  { font-size: .83rem; color: var(--muted); line-height: 1.5; }
+    .course-badge {
+      margin-left: auto; flex-shrink: 0;
+      font-size: .72rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 6px;
+      background: rgba(45,125,210,.12); color: var(--blue);
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+    .course-badge.hot { background: rgba(224,48,48,.12); color: var(--red); }
+    .course-badge.new { background: rgba(245,166,35,.12); color: var(--yellow); }
+
+    .learn-aside {
+      position: sticky; top: 100px;
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      text-align: center;
+    }
+    .learn-aside .big-emoji { font-size: 3.5rem; margin-bottom: 16px; display: block; }
+    .learn-aside h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 10px; }
+    .learn-aside p { font-size: .9rem; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+    .stat-row {
+      display: flex; justify-content: center; gap: 32px; margin-bottom: 32px;
+    }
+    .stat strong { display: block; font-size: 1.8rem; font-weight: 900; }
+    .stat span   { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+    .stat:nth-child(1) strong { color: var(--yellow); }
+    .stat:nth-child(2) strong { color: var(--blue);   }
+    .stat:nth-child(3) strong { color: var(--red);    }
+
+    /* ── VALUES / MANIFESTO ───────────────────────────────────── */
+    #manifesto {
+      padding: 110px 0;
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,255,255,.05);
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .value-card {
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      position: relative; overflow: hidden;
+    }
+    .value-card.v1 { background: rgba(245,166,35,.08); border: 1px solid rgba(245,166,35,.18); }
+    .value-card.v2 { background: rgba(45,125,210,.08);  border: 1px solid rgba(45,125,210,.18); }
+    .value-card.v3 { background: rgba(224,48,48,.08);   border: 1px solid rgba(224,48,48,.18); }
+    .value-card.v4 { background: rgba(255,255,255,.04);  border: 1px solid rgba(255,255,255,.08); }
+    .value-num {
+      font-size: 5rem; font-weight: 900; opacity: .07;
+      position: absolute; top: 16px; right: 24px; line-height: 1;
+    }
+    .value-card h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 10px; }
+    .value-card.v1 h3 { color: var(--yellow); }
+    .value-card.v2 h3 { color: var(--blue);   }
+    .value-card.v3 h3 { color: var(--red);    }
+    .value-card p { font-size: .95rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── CTA BAND ─────────────────────────────────────────────── */
+    #cta {
+      padding: 110px 24px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(245,166,35,.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #cta h2 { font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 20px; }
+    #cta p  { font-size: 1.1rem; color: var(--muted); margin-bottom: 44px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-input-row {
+      display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .cta-input {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--text); font-size: .95rem;
+      padding: 14px 20px; border-radius: 10px; outline: none;
+      width: 280px; transition: border-color .2s;
+    }
+    .cta-input:focus { border-color: var(--yellow); }
+    .cta-input::placeholder { color: var(--muted); }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    footer {
+      background: var(--bg); border-top: 1px solid rgba(255,255,255,.06);
+      padding: 48px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+    }
+    .footer-logo {
+      font-size: 1.3rem; font-weight: 900; letter-spacing: -.3px;
+    }
+    .footer-links {
+      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+      font-size: .85rem; color: var(--muted);
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: .78rem; color: var(--muted); }
+
+    /* ── Floating badge ───────────────────────────────────────── */
+    .badge-floating {
+      position: fixed; bottom: 28px; right: 28px; z-index: 200;
+      background: linear-gradient(135deg, var(--yellow), var(--red));
+      color: #fff; font-size: .8rem; font-weight: 700;
+      padding: 10px 18px; border-radius: 100px;
+      box-shadow: 0 8px 32px rgba(245,166,35,.4);
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      letter-spacing: .04em;
+    }
+    .badge-floating:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 14px 40px rgba(245,166,35,.5); }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .learn-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      .steps { gap: 40px; }
+    }
+
+    /* ── Fade-in on scroll ────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0"  y="28" font-size="28" font-weight="900" fill="#F5A623">&lt;</text>
+      <text x="10" y="28" font-size="22" font-weight="900" fill="#2D7DD2">⚡</text>
+      <text x="22" y="28" font-size="28" font-weight="900" fill="#E03030">&gt;</text>
+    </svg>
+    <span><span class="vibe">vibe</span><span class="code">code</span><span class="force">forces</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#services">Услуги</a>
+    <a href="#how">Как работаем</a>
+    <a href="#learn">Обучение</a>
+    <a href="#manifesto">О нас</a>
+  </div>
+  <a href="#cta" class="nav-cta">Начать проект</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-logo">
+    <span class="bracket-l">&lt;</span>
+    <span class="lightning">⚡</span>
+    <span class="bracket-r">&gt;</span>
+  </div>
+
+  <div class="hero-wordmark">
+    <span class="vibe">vibe</span><span class="code">code</span><span class="force">forces</span>
+  </div>
+
+  <p class="hero-sub">
+    Студия вайбкодинга. Мы вайбкодим всё — от лендингов до сложных продуктов.
+    И учим вайбкодингу всех, кто хочет создавать с потоком.
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#cta" class="btn-primary">⚡ Вайбкодим вместе</a>
+    <a href="#learn" class="btn-secondary">Научиться вайбкодингу →</a>
+  </div>
+
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span>VIBE CODING</span><span class="dot">⚡</span>
+    <span>FLOW STATE</span><span class="dot">⚡</span>
+    <span>MVP ЗА ДЕНЬ</span><span class="dot">⚡</span>
+    <span>AI-ПЕРВЫЙ</span><span class="dot">⚡</span>
+    <span>ИДЕЯ → ПРОД</span><span class="dot">⚡</span>
+    <span>VIBE CODING</span><span class="dot">⚡</span>
+    <span>FLOW STATE</span><span class="dot">⚡</span>
+    <span>MVP ЗА ДЕНЬ</span><span class="dot">⚡</span>
+    <span>AI-ПЕРВЫЙ</span><span class="dot">⚡</span>
+    <span>ИДЕЯ → ПРОД</span><span class="dot">⚡</span>
+    <span>VIBE CODING</span><span class="dot">⚡</span>
+    <span>FLOW STATE</span><span class="dot">⚡</span>
+    <span>MVP ЗА ДЕНЬ</span><span class="dot">⚡</span>
+    <span>AI-ПЕРВЫЙ</span><span class="dot">⚡</span>
+    <span>ИДЕЯ → ПРОД</span><span class="dot">⚡</span>
+    <span>VIBE CODING</span><span class="dot">⚡</span>
+    <span>FLOW STATE</span><span class="dot">⚡</span>
+    <span>MVP ЗА ДЕНЬ</span><span class="dot">⚡</span>
+    <span>AI-ПЕРВЫЙ</span><span class="dot">⚡</span>
+    <span>ИДЕЯ → ПРОД</span><span class="dot">⚡</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-tag reveal">⚡ Что мы делаем</div>
+    <h2 class="reveal">Вайбкодим <span class="vibe">всё,</span><br>что вам нужно</h2>
+    <p class="section-lead reveal">
+      Забудьте про долгие ТЗ и классические спринты. Мы работаем в потоке —
+      быстро, творчески и с максимальной энергией.
+    </p>
+
+    <div class="services-grid">
+      <div class="card y reveal">
+        <span class="card-icon" style="color:var(--yellow)">🚀</span>
+        <h3>MVP и стартапы</h3>
+        <p>Запустим ваш продукт за недели, а не месяцы. Минимальный продукт — максимальный вайб. Проверяем гипотезы быстро и без лишних рисков.</p>
+        <span class="card-tag">Быстрый старт</span>
+      </div>
+      <div class="card b reveal">
+        <span class="card-icon" style="color:var(--blue)">🤖</span>
+        <h3>AI-продукты</h3>
+        <p>Чат-боты, AI-ассистенты, умные дашборды. Интегрируем Claude, GPT и другие модели в ваш бизнес. Будущее — прямо сейчас.</p>
+        <span class="card-tag">AI-first</span>
+      </div>
+      <div class="card r reveal">
+        <span class="card-icon" style="color:var(--red)">⚡</span>
+        <h3>Веб-приложения</h3>
+        <p>От лендинга до SaaS-платформы. Быстрые, красивые, работающие. Технологии выбираем под задачу, не под моду.</p>
+        <span class="card-tag">Full-stack</span>
+      </div>
+      <div class="card m reveal">
+        <span class="card-icon" style="color:var(--yellow)">✨</span>
+        <h3>Автоматизация</h3>
+        <p>Превращаем рутину в поток. Автоматизируем процессы, строим пайплайны, освобождаем вас для творчества и стратегии.</p>
+        <span class="card-tag">No-code / Code</span>
+      </div>
+      <div class="card b reveal">
+        <span class="card-icon" style="color:var(--blue)">📱</span>
+        <h3>Мобильные приложения</h3>
+        <p>iOS и Android без боли. Вайбкодим нативные и кроссплатформенные решения, которые люди хотят использовать.</p>
+        <span class="card-tag">Mobile</span>
+      </div>
+      <div class="card y reveal">
+        <span class="card-icon" style="color:var(--yellow)">🎯</span>
+        <h3>Прототипирование</h3>
+        <p>Кликабельный прототип за 24–48 часов. Покажите инвесторам и пользователям идею до того, как написана первая строка продакшн-кода.</p>
+        <span class="card-tag">Rapid</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="container">
+    <div class="section-tag reveal">🔄 Как работаем</div>
+    <h2 class="reveal">Процесс в <span class="blue">потоке</span></h2>
+    <p class="section-lead reveal">
+      Четыре шага от идеи до живого продукта. Без бюрократии, но с результатом.
+    </p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Вайб-сессия</h3>
+        <p>Созваниваемся, погружаемся в идею, ловим вибрацию проекта. Определяем цели и скоуп за 1 час.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Дизайн-спринт</h3>
+        <p>За 1–3 дня делаем интерфейс и архитектуру. Показываем — получаем фидбек — итерируем.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>Вайбкодинг</h3>
+        <p>Кодим в состоянии потока. AI + опытная команда = скорость × качество. Ежедневные апдейты.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <h3>Запуск ⚡</h3>
+        <p>Релизим, поддерживаем, масштабируем. Вы растёте — мы растём вместе с вами.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARN -->
+<section id="learn">
+  <div class="container">
+    <div class="section-tag reveal">🎓 Обучение</div>
+    <h2 class="reveal">Научись <span class="vibe">вайбкодить</span></h2>
+    <p class="section-lead reveal">
+      Курсы и воркшопы для тех, кто хочет создавать продукты с потоком — с AI и без страха перед кодом.
+    </p>
+
+    <div class="learn-grid">
+      <div class="learn-courses reveal">
+        <div class="course">
+          <div class="course-icon y">🌊</div>
+          <div class="course-body">
+            <h4>Вайбкодинг с нуля</h4>
+            <p>Для тех, кто никогда не кодил. Создаёшь реальный продукт за 4 недели.</p>
+          </div>
+          <span class="course-badge hot">Хит</span>
+        </div>
+        <div class="course">
+          <div class="course-icon b">🤖</div>
+          <div class="course-body">
+            <h4>AI-разработка</h4>
+            <p>Claude, Cursor, Copilot и другие инструменты. Скорость × 10.</p>
+          </div>
+          <span class="course-badge new">Новый</span>
+        </div>
+        <div class="course">
+          <div class="course-icon r">🚀</div>
+          <div class="course-body">
+            <h4>MVP за выходные</h4>
+            <p>Интенсив. Приходишь с идеей — уходишь с рабочим прототипом.</p>
+          </div>
+          <span class="course-badge">2 дня</span>
+        </div>
+        <div class="course">
+          <div class="course-icon y">💼</div>
+          <div class="course-body">
+            <h4>Корпоративный вайбкодинг</h4>
+            <p>Для команд. Прокачиваем разработчиков и не-разработчиков.</p>
+          </div>
+          <span class="course-badge">B2B</span>
+        </div>
+        <div class="course">
+          <div class="course-icon b">⚡</div>
+          <div class="course-body">
+            <h4>Flow State Dev</h4>
+            <p>Не только код — философия и практика работы в состоянии потока.</p>
+          </div>
+          <span class="course-badge new">Новый</span>
+        </div>
+      </div>
+
+      <div class="learn-aside reveal">
+        <span class="big-emoji">⚡</span>
+        <h3>Присоединяйся<br>к вайбу</h3>
+        <p>Больше 500 человек уже вайбкодят после наших курсов. Твоя очередь войти в поток.</p>
+        <div class="stat-row">
+          <div class="stat">
+            <strong>500+</strong>
+            <span>студентов</span>
+          </div>
+          <div class="stat">
+            <strong>92%</strong>
+            <span>довольны</span>
+          </div>
+          <div class="stat">
+            <strong>48ч</strong>
+            <span>до MVP</span>
+          </div>
+        </div>
+        <a href="#cta" class="btn-primary" style="display:inline-block;font-size:.9rem;padding:14px 28px;">
+          Записаться на курс
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO / VALUES -->
+<section id="manifesto">
+  <div class="container">
+    <div class="section-tag reveal">💡 Наш манифест</div>
+    <h2 class="reveal">Почему <span class="force">вайбкодинг</span> —<br>это серьёзно</h2>
+    <p class="section-lead reveal">
+      Вайбкодинг — не хайп. Это новый подход к созданию технологий,
+      где творчество, скорость и AI работают вместе.
+    </p>
+
+    <div class="values-grid">
+      <div class="value-card v1 reveal">
+        <div class="value-num">01</div>
+        <h3>〰️ Vibe — настроение</h3>
+        <p>Лучший код пишется в состоянии потока. Мы создаём среду, где вдохновение и технологии встречаются каждый день. Без токсичных дедлайнов и крашей в 3 ночи.</p>
+      </div>
+      <div class="value-card v2 reveal">
+        <div class="value-num">02</div>
+        <h3>&lt;/&gt; Code — логика</h3>
+        <p>Красивый код — это не миф. Мы пишем чисто, думаем архитектурно и не срезаем углы. AI помогает, но голова на плечах у нас.</p>
+      </div>
+      <div class="value-card v3 reveal">
+        <div class="value-num">03</div>
+        <h3>⚡ Forces — энергия</h3>
+        <p>Мы двигаемся быстро. Первый прототип быстрее конкурентов, первый отзыв пользователей раньше. Скорость — наше конкурентное преимущество.</p>
+      </div>
+      <div class="value-card v4 reveal">
+        <div class="value-num">04</div>
+        <h3>✨ Together — синергия</h3>
+        <p>Мы не просто агентство. Мы партнёры. Разделяем риски, радуемся успехам клиентов и строим сообщество вайбкодеров по всему миру.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-tag" style="margin:0 auto 20px;display:inline-flex;">⚡ Поехали</div>
+    <h2 class="reveal">
+      Готов <span class="vibe">вайбкодить?</span>
+    </h2>
+    <p class="reveal">
+      Оставь контакт — мы напишем в течение нескольких часов и договоримся о вайб-сессии. Первый созвон бесплатный.
+    </p>
+    <div class="cta-input-row reveal">
+      <input class="cta-input" type="text" placeholder="Твоё имя" />
+      <input class="cta-input" type="email" placeholder="Email или Telegram" />
+      <button class="btn-primary" style="padding:14px 28px;">Написать нам ⚡</button>
+    </div>
+    <p style="font-size:.8rem;color:var(--muted);">Или сразу в Telegram: <a href="https://t.me/vibecodeforces" style="color:var(--blue);">@vibecodeforces</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <span class="vibe">vibe</span><span class="code">code</span><span class="force">forces</span>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Услуги</a>
+    <a href="#how">Как работаем</a>
+    <a href="#learn">Обучение</a>
+    <a href="#manifesto">О нас</a>
+    <a href="#">Telegram</a>
+    <a href="#">GitHub</a>
+  </div>
+  <div class="footer-copy">© 2024 VibeCodeForces. Вайбкодим с ❤️</div>
+</footer>
+
+<!-- Floating CTA -->
+<a href="#cta" class="badge-floating">⚡ Начать проект</a>
+
+<script>
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hide floating badge near CTA
+  const ctaSection = document.getElementById('cta');
+  const floatingBadge = document.querySelector('.badge-floating');
+  const badgeObserver = new IntersectionObserver((entries) => {
+    floatingBadge.style.opacity = entries[0].isIntersecting ? '0' : '1';
+    floatingBadge.style.pointerEvents = entries[0].isIntersecting ? 'none' : 'auto';
+  }, { threshold: 0.2 });
+  badgeObserver.observe(ctaSection);
+</script>
+</body>
+</html>
