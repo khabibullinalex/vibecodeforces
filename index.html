@@ -771,11 +771,12 @@
     <p class="reveal">
       Оставь контакт — мы напишем в течение нескольких часов и договоримся о вайб-сессии. Первый созвон бесплатный.
     </p>
-    <div class="cta-input-row reveal">
-      <input class="cta-input" type="text" placeholder="Твоё имя" />
-      <input class="cta-input" type="email" placeholder="Email или Telegram" />
-      <button class="btn-primary" style="padding:14px 28px;">Написать нам ⚡</button>
-    </div>
+    <form id="contact-form" class="cta-input-row reveal" style="margin-bottom:16px">
+      <input id="f-name"    class="cta-input" type="text"  placeholder="Твоё имя" required />
+      <input id="f-contact" class="cta-input" type="text"  placeholder="Email или Telegram" required />
+      <button type="submit" class="btn-primary" style="padding:14px 28px;" id="submit-btn">Написать нам ⚡</button>
+    </form>
+    <p id="form-status" style="font-size:.9rem;min-height:1.4em;margin-bottom:8px;"></p>
     <p style="font-size:.8rem;color:var(--muted);">Или сразу в Telegram: <a href="https://t.me/vibecodeforces" style="color:var(--blue);">@vibecodeforces</a></p>
   </div>
 </section>
@@ -793,7 +794,7 @@
     <a href="#">Telegram</a>
     <a href="#">GitHub</a>
   </div>
-  <div class="footer-copy">© 2024 VibeCodeForces. Вайбкодим с ❤️</div>
+  <div class="footer-copy">© 2026 VibeCodeForces. Вайбкодим с ❤️</div>
 </footer>
 
 <!-- Floating CTA -->
@@ -811,6 +812,41 @@
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
+
+  // Form submission
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const status = document.getElementById('form-status');
+    const name = document.getElementById('f-name').value.trim();
+    const contact = document.getElementById('f-contact').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+    status.style.color = 'var(--muted)';
+    status.textContent = '';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, contact }),
+      });
+      if (res.ok) {
+        status.style.color = '#4CAF50';
+        status.textContent = '⚡ Заявка отправлена! Свяжемся скоро.';
+        e.target.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      status.style.color = 'var(--red)';
+      status.textContent = 'Что-то пошло не так. Напиши нам напрямую в Telegram.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Написать нам ⚡';
+    }
+  });
 
   // Hide floating badge near CTA
   const ctaSection = document.getElementById('cta');
